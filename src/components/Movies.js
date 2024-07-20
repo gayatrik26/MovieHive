@@ -3,8 +3,17 @@ import { useGlobalContext } from '../context/context'
 import { NavLink } from 'react-router-dom';
 
 const Movies = () => {
-  const { movies } = useGlobalContext();
+  const { movies , loading } = useGlobalContext();
   const imgUrl = "https://via.placeholder.com/200/200";
+
+  if(loading){
+    return(
+        <div className='loading'>
+          Loading...
+        </div>
+    )
+  }
+
 
   return (
     <>

@@ -7,7 +7,7 @@ const API_URL = `https://www.omdbapi.com/?i=tt3896198&apikey=${API_KEY}`
 
 const AppProvider = ({ children }) => {
 
-    const [Loading , setLoading] = useState(true);
+    const [loading , setLoading] = useState(true);
     const [movies , setMoives] = useState(null);
     const [error , SetError] = useState({ show: "false" , msg: ""});
     const [query , setQuery] = useState("titanic");
@@ -20,12 +20,12 @@ const AppProvider = ({ children }) => {
             console.log(data);
             if(data.Response === "True"){
                 setLoading(false);
-                setMoives(data.Search || data);
+                setMoives(Array.isArray(data.Search) ? data.Search : []);
                 SetError({show : "false" , msg: ""});
             }else{
                 SetError({
                     show: true,
-                    msg: data.error,
+                    msg: data.Error,
                 });
             }
         } catch (error) {
@@ -34,11 +34,14 @@ const AppProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        getMovies(`${API_URL}&s=${query}`);
+        let timer = setTimeout(() => {
+            getMovies(`${API_URL}&s=${query}`); 
+        }, 500);
+        return () => clearTimeout(timer);
     },[query]);
 
     return (
-        <AppContext.Provider value={{Loading , error , movies , query , setQuery}}>
+        <AppContext.Provider value={{loading , error , movies , query , setQuery}}>
             {children}
         </AppContext.Provider>
     );
