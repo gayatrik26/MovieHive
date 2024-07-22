@@ -49,7 +49,7 @@ export const API_URL = `https://www.omdbapi.com/?i=tt3896198&apikey=${API_KEY}`
 // };
 
 const AppProvider = ({ children }) => {
-    const [query, setQuery] = useState("hacker");
+    const [query, setQuery] = useState("joker");
     const { loading, error, movies } = useFetch(`&s=${query}`);
   
     return (
@@ -64,3 +64,4 @@ const useGlobalContext = () => {
 }
 
 export { AppContext , AppProvider , useGlobalContext};
+
